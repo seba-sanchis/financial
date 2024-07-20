@@ -1,50 +1,75 @@
 "use client";
 
+import { useDropzone } from "react-dropzone";
 import handleOCR from "@/lib/actions/ocr.actions";
-import { ChangeEvent, FormEvent, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 export default function FileUpload() {
-  const [files, setFiles] = useState<File[]>();
-  const [receipts, setReceipts] = useState<Receipt[]>();
+  const [receipts, setReceipts] = useState<Receipt[]>([]);
 
-  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    if (event.target.files) setFiles(Array.from(event.target.files));
-  }
+  // Handle file drop
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const formData = new FormData();
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+    // Process each file
+    acceptedFiles.forEach((file) => {
+      const reader = new FileReader();
 
-    if (!files) throw new Error("No files selected.");
+      // Event handler for when file reading is aborted
+      reader.onabort = () => {
+        throw new Error("File reading was aborted");
+      };
+      // Event handler for when file reading fails
+      reader.onerror = () => {
+        throw new Error("File reading has failed");
+      };
+      // Event handler for when file reading is successful
+      reader.onload = async () => {
+        const binaryStr = reader.result;
 
-    // Create a FormData object to send the file
-    const formData = files.reduce((formData, file, index) => {
-      formData.append(`file${index}`, file);
-      return formData;
-    }, new FormData());
+        // Append the file to FormData as a Blob
+        formData.append(
+          "files",
+          new Blob([binaryStr as ArrayBuffer], { type: file.type }),
+          file.name
+        );
 
-    const data = await handleOCR(formData);
+        // Check if all files have been appended
+        if (formData.getAll("files").length === acceptedFiles.length) {
+          const data = await handleOCR(formData);
+          setReceipts(data);
+        }
+      };
 
-    setReceipts(data);
-  }
+      // Read the file as an ArrayBuffer
+      reader.readAsArrayBuffer(file);
+    });
+  }, []);
+
+  // Set up the dropzone with the onDrop callback
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="file" multiple onChange={handleFileChange} />
-      <button type="submit">Upload</button>
-
+    <>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop the files here ...</p>
+        ) : (
+          <p>Drag 'n' drop some files here, or click to select files</p>
+        )}
+      </div>
       <div>
         {receipts?.map((receipt, index) => (
-          <div key={index}>
-            <h2>----------------------</h2>
-            <p>Date: {receipt.date}</p>
-            <p>Category: {receipt.category}</p>
-            <p>Payment: {receipt.payment}</p>
-            <p>Payee: {receipt.payee}</p>
-            <p>Amount: {receipt.amount}</p>
-            <h2>----------------------</h2>
-          </div>
+          <ul key={index}>
+            <li>Date: {receipt.date}</li>
+            <li>Category: {receipt.category}</li>
+            <li>Payee: {receipt.payee}</li>
+            <li>Payment: {receipt.payment}</li>
+            <li>Amount: {receipt.amount}</li>
+          </ul>
         ))}
       </div>
-    </form>
+    </>
   );
 }
