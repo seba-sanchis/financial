@@ -1,4 +1,4 @@
-export function extractDate(text: string, regex: RegExp): string {
+export function extractDate(text: string, regex: RegExp): Date {
   // Use the regular expression to match the date pattern in the text
   const dateMatch = text.match(regex);
 
@@ -9,7 +9,8 @@ export function extractDate(text: string, regex: RegExp): string {
   const dateParts = dateMatch[1].split("/").reverse();
 
   // Join the parts with hyphens to format as "yyyy-MM-dd"
-  return dateParts.join("-");
+  const date = new Date(dateParts.join("-"));
+  return date;
 }
 
 export function extractAmount(text: string, id?: string) {

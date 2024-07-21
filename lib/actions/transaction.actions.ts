@@ -1,5 +1,6 @@
 "use server";
 
+import { Transaction } from "@/types";
 import { expenses } from "@/constants";
 import {
   convertMonth,
@@ -7,12 +8,17 @@ import {
   extractDate,
   findExpense,
 } from "../utils";
+import { getSession } from "../auth";
 
-// Function to extract receipt data from the given text
-export async function extractReceiptData(text: string): Promise<Receipt[]> {
-  const statement: Receipt[] = [];
+// Function to extract transaction data from the given text
+export async function extractTransactions(text: string): Promise<Transaction[]> {
+  const { user } = await getSession();
 
-  // Flags to determine the type of receipt
+  const accountId = user._id;
+
+  const transactions: Transaction[] = [];
+
+  // Flags to determine the type of transaction
   const payment = text.includes("Comprobante de pago");
   const transfer = text.includes("Comprobante de transferencia");
   const resume = text.includes("RESUMEN DE CUENTA");
@@ -31,8 +37,8 @@ export async function extractReceiptData(text: string): Promise<Receipt[]> {
     // Find the corresponding expense details
     const { category, payee, payment } = findExpense(text, expenses);
 
-    // Add the extracted data to the statement array
-    statement.push({ date, category, payee, payment, amount });
+    // Add the extracted data to the transactions array
+    transactions.push({ date, category, payee, payment, amount, accountId });
   }
   // Check if the text includes "Comprobante de transferencia"
   else if (transfer) {
@@ -48,8 +54,8 @@ export async function extractReceiptData(text: string): Promise<Receipt[]> {
     // Find the corresponding expense details
     const { category, payee, payment } = findExpense(text, expenses);
 
-    // Add the extracted data to the statement array
-    statement.push({ date, category, payee, payment, amount });
+    // Add the extracted data to the transactions array
+    transactions.push({ date, category, payee, payment, amount, accountId });
   }
   // Check if the text includes "RESUMEN DE CUENTA"
   else if (resume) {
@@ -64,7 +70,7 @@ export async function extractReceiptData(text: string): Promise<Receipt[]> {
     const monthNumber = convertMonth(month);
 
     // Format the date in the required format
-    const date = `20${year}-${monthNumber}-${day}`;
+    const date = new Date(`20${year}-${monthNumber}-${day}`);
 
     // Iterate over each expense to find matches in the text
     expenses.forEach((expense) => {
@@ -72,19 +78,20 @@ export async function extractReceiptData(text: string): Promise<Receipt[]> {
         // Get the amounts related to the expense id
         const amounts = extractAmount(text, expense.id);
 
-        // Add each found amount to the statement array
+        // Add each found amount to the transactions array
         amounts.forEach((amount) => {
-          statement.push({
+          transactions.push({
             date,
             category: expense.category,
             payee: expense.payee,
             payment: expense.payment,
             amount,
+            accountId,
           });
         });
       }
     });
   }
 
-  return statement;
+  return transactions;
 }

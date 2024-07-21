@@ -1,11 +1,13 @@
 "use client";
 
 import { useDropzone } from "react-dropzone";
-import handleOCR from "@/lib/actions/ocr.actions";
 import React, { useCallback, useState } from "react";
 
+import { Transaction } from "@/types";
+import extractFile from "@/lib/actions/file.actions";
+
 export default function FileUpload() {
-  const [receipts, setReceipts] = useState<Receipt[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   // Handle file drop
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -36,8 +38,8 @@ export default function FileUpload() {
 
         // Check if all files have been appended
         if (formData.getAll("files").length === acceptedFiles.length) {
-          const data = await handleOCR(formData);
-          setReceipts(data);
+          const data = await extractFile(formData);
+          setTransactions(data);
         }
       };
 
@@ -60,13 +62,13 @@ export default function FileUpload() {
         )}
       </div>
       <div>
-        {receipts?.map((receipt, index) => (
+        {transactions?.map((transaction, index) => (
           <ul key={index}>
-            <li>Date: {receipt.date}</li>
-            <li>Category: {receipt.category}</li>
-            <li>Payee: {receipt.payee}</li>
-            <li>Payment: {receipt.payment}</li>
-            <li>Amount: {receipt.amount}</li>
+            <li>Date: {transaction.date.toString()}</li>
+            <li>Category: {transaction.category}</li>
+            <li>Payee: {transaction.payee}</li>
+            <li>Payment: {transaction.payment}</li>
+            <li>Amount: {transaction.amount}</li>
           </ul>
         ))}
       </div>

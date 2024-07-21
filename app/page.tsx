@@ -1,6 +1,10 @@
-import FileUpload from "@/components/FileUpload";
+import { getSession } from "@/lib/auth";
+import { FileUpload } from "@/components";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getSession();
+
+  console.log("session ->", session);
   return (
     <main>
       <FileUpload />
