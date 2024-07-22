@@ -1,3 +1,29 @@
+export const navigation = [
+  {
+    name: "Pricing",
+    url: "/pricing",
+  },
+];
+
+export const dashboard = [
+  {
+    name: "Home",
+    url: "/home",
+  },
+  {
+    name: "Balances",
+    url: "/balances",
+  },
+  {
+    name: "Transactions",
+    url: "/transactions",
+  },
+  {
+    name: "Reporting",
+    url: "/reporting",
+  },
+];
+
 export const expenses = [
   // Healthcare
   {

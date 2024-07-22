@@ -3,6 +3,7 @@
 import { signIn, signOut } from "next-auth/react";
 
 import { Session } from "@/types";
+import { Button } from "@/components";
 
 export default function OAuth({
   id,
@@ -21,8 +22,8 @@ export default function OAuth({
     }
   }
   return (
-    <button key={name} onClick={handleClick} type="button">
+    <Button key={name} onClick={handleClick}>
       {session ? "Sign out" : "Sign in"}
-    </button>
+    </Button>
   );
 }
