@@ -30,10 +30,11 @@ export default function Sidebar({ session }: Props) {
             </Link>
           </li>
         ))}
-        <li>
-          <OAuth session={session} />
-        </li>
       </ul>
+      <div className="px-5">
+        <div className="py-1.5 text-xs">Account</div>
+        <OAuth session={session} />
+      </div>
     </div>
   );
 }

@@ -1,3 +1,5 @@
-export default async function Page() {
-  return <main>Balances</main>;
+import { redirect } from "next/navigation";
+
+export default function Page() {
+  redirect("/balances/overview");
 }

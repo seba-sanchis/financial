@@ -5,6 +5,7 @@
 :root {
   --foreground-1: oklch(43.8% 0.037 248.69deg);
   --foreground-2: oklch(25.99% 0.06 251.32deg);
+  --foreground-3: oklch(34.77% 0.019 264.29deg);
 
   --background-1: oklch(100% 0 0deg);
   --background-2: oklch(98.07% 0.005 247.88deg);
