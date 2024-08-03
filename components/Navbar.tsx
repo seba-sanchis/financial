@@ -34,7 +34,7 @@ export default async function Navbar({ session }: Props) {
                 <li key={item.name}>
                   <Link
                     href={item.url}
-                    className="p-4 font-semibold text-[--foreground-2] hover:text-[--hover]"
+                    className="p-4 font-semibold text-[--foreground-2] hover:text-[--hover-1]"
                   >
                     {item.name}
                   </Link>
@@ -44,17 +44,14 @@ export default async function Navbar({ session }: Props) {
           </nav>
         </div>
         {providers &&
-          Object.values(providers).map(
-            (provider) =>
-              provider.name !== "Credentials" && (
-                <OAuth
-                  key={provider.id}
-                  id={provider.id}
-                  name={provider.name}
-                  session={session}
-                />
-              )
-          )}
+          Object.values(providers).map((provider) => (
+            <OAuth
+              key={provider.id}
+              id={provider.id}
+              name={provider.name}
+              session={session}
+            />
+          ))}
       </div>
     </header>
   );

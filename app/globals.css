@@ -3,23 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --foreground-1: oklch(43.80% 0.037 248.69deg);
+  --foreground-1: oklch(43.8% 0.037 248.69deg);
   --foreground-2: oklch(25.99% 0.06 251.32deg);
 
-  --background-1: oklch(100.00% 0.000 0deg);
+  --background-1: oklch(100% 0 0deg);
   --background-2: oklch(98.07% 0.005 247.88deg);
   --background-3: oklch(97.97% 0.005 228.82deg);
-  
+
   --accent-1: oklch(74.27% 0.127 194.77deg);
   --accent-2: oklch(74.27% 0.127 194.77deg / 15%);
 
-  --hover: oklch(25.99% 0.06 251.32deg / 60%);
-  
-  --disabled: oklch(87.54% 0.014 247.99deg / 70%);;
+  --hover-1: oklch(25.99% 0.06 251.32deg / 60%);
+  --hover-2: oklch(97.29% 0.003 264.54deg);
+
+  --disabled: oklch(87.54% 0.014 247.99deg / 70%);
 
   --error: oklch(70.08% 0.207 1.42deg);
 
-  --border: oklch(94.03% 0.010 247.94deg);
+  --border: oklch(94.03% 0.01 247.94deg);
+
   --shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
     0 8px 16px -8px rgba(0, 0, 0, 0.3);
 }

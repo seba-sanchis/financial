@@ -1,3 +1,3 @@
 export default async function Page() {
-  return <main>Balances</main>;
+  return <main>Billing</main>;
 }

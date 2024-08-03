@@ -14,9 +14,11 @@ export default async function RootLayout({ children }: Props) {
   if (!session) redirect("/");
 
   return (
-    <div className="flex">
-      <Sidebar session={session} />
-      {children}
+    <div className="flex justify-center min-h-screen">
+      <div className="flex flex-1 max-w-screen-lg">
+        <Sidebar session={session} />
+        {children}
+      </div>
     </div>
   );
 }

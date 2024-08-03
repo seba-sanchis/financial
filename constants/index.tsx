@@ -1,7 +1,48 @@
+import { FaFileInvoice, FaHome, FaUser, FaWallet } from "react-icons/fa";
+import { FaBarsStaggered, FaChartColumn, FaRepeat } from "react-icons/fa6";
+
 export const navigation = [
   {
     name: "Pricing",
     url: "/pricing",
+  },
+];
+
+export const menu = [
+  {
+    icon: <FaHome size={16} />,
+    name: "Home",
+    url: "/home",
+  },
+  {
+    icon: <FaBarsStaggered size={16} />,
+    name: "Balances",
+    url: "/balances",
+  },
+  {
+    icon: <FaRepeat size={16} />,
+    name: "Transactions",
+    url: "/transactions",
+  },
+  {
+    icon: <FaUser size={16} />,
+    name: "Customers",
+    url: "/customers",
+  },
+  {
+    icon: <FaWallet size={16} />,
+    name: "Payments",
+    url: "/payments",
+  },
+  {
+    icon: <FaFileInvoice size={16} />,
+    name: "Billing",
+    url: "/billing",
+  },
+  {
+    icon: <FaChartColumn size={16} />,
+    name: "Reporting",
+    url: "/reporting",
   },
 ];
 

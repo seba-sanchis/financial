@@ -1,11 +1,7 @@
 import "./globals.css";
+import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
-import { Navbar } from "@/components";
-import { ReactNode } from "react";
-import { getSession } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
