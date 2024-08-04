@@ -1,77 +1,79 @@
 "use client";
 
-import { useDropzone } from "react-dropzone";
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Transaction } from "@/types";
-import extractFile from "@/lib/actions/file.actions";
+import { DragAndDrop, Table } from "@/components";
+import { formatCurrency, formatRate } from "@/lib/utils/formatter";
+import { FaCloudArrowUp } from "react-icons/fa6";
 
 export default function FileUpload() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [expense, setExpense] = useState(0);
+  const [expenseRate, setExpenseRate] = useState(0);
+  const [largestTransaction, setLargestTransaction] = useState(0);
 
-  // Handle file drop
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const formData = new FormData();
+  useEffect(() => {
+    // Calculate total expense
+    const total = transactions.reduce(
+      (sum, transaction) => sum + transaction.amount,
+      0
+    );
+    setExpense(total);
 
-    // Process each file
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader();
+    // Calculate percentage in relation to 1000
+    const percentageValue = (total / 2210000) * 100;
+    setExpenseRate(percentageValue);
 
-      // Event handler for when file reading is aborted
-      reader.onabort = () => {
-        throw new Error("File reading was aborted");
-      };
-      // Event handler for when file reading fails
-      reader.onerror = () => {
-        throw new Error("File reading has failed");
-      };
-      // Event handler for when file reading is successful
-      reader.onload = async () => {
-        const binaryStr = reader.result;
+    // Calculate largest transaction amount
+    const largest = transactions.reduce(
+      (max, transaction) => Math.max(max, transaction.amount),
+      0
+    );
+    setLargestTransaction(largest);
+  }, [transactions]);
 
-        // Append the file to FormData as a Blob
-        formData.append(
-          "files",
-          new Blob([binaryStr as ArrayBuffer], { type: file.type }),
-          file.name
-        );
-
-        // Check if all files have been appended
-        if (formData.getAll("files").length === acceptedFiles.length) {
-          const data = await extractFile(formData);
-          setTransactions(data);
-        }
-      };
-
-      // Read the file as an ArrayBuffer
-      reader.readAsArrayBuffer(file);
-    });
-  }, []);
-
-  // Set up the dropzone with the onDrop callback
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const metrics = [
+    {
+      title: "Expense",
+      value: formatCurrency(expense),
+    },
+    {
+      title: "Expense Rate",
+      value: formatRate(expenseRate),
+    },
+    {
+      title: "Largest Transaction",
+      value: `${formatCurrency(largestTransaction)}`,
+    },
+    {
+      title: "Transactions",
+      value: transactions.length,
+    },
+  ];
 
   return (
-    <>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        )}
-      </div>
-      <div>
-        {transactions?.map((transaction, index) => (
-          <ul key={index}>
-            <li>Date: {transaction.date.toString()}</li>
-            <li>Category: {transaction.category}</li>
-            <li>Description: {transaction.description}</li>
-            <li>Payment: {transaction.payment}</li>
-            <li>Amount: {transaction.amount}</li>
-          </ul>
+    <div className="flex flex-col gap-4">
+      <DragAndDrop setTransactions={setTransactions} />
+
+      <div className="flex p-3">
+        {metrics.map((metric) => (
+          <div className="flex flex-col gap-3 flex-1">
+            <div className="text-sm font-medium">{metric.title}</div>
+            <div className="text-2xl text-[--foreground-2] font-medium">
+              {metric.value}
+            </div>
+          </div>
         ))}
       </div>
-    </>
+
+      <div className="flex flex-col gap-3">
+        <button className="flex items-center self-end gap-1.5 px-2 py-1 border border-[--border-1] hover:border-[--border-2] active:bg-[--hover-2] rounded-md">
+          <FaCloudArrowUp size={12} />
+          <span className="text-sm font-semibold">Save Payments</span>
+        </button>
+        <Table body={transactions} />
+      </div>
+    </div>
   );
 }

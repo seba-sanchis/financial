@@ -1,19 +1,28 @@
 import { Transaction } from "@/types";
+import {
+  formatCategory,
+  formatCurrency,
+  formatDate,
+  formatPayment,
+} from "@/lib/utils/formatter";
 
 type Props = {
-  head: string[];
   body: Transaction[];
 };
 
-export default function Table({ head, body }: Props) {
+export default function Table({ body }: Props) {
+  const head = ["Amount", "Payment method", "Description", "Category", "Date"];
+
   return (
     <table className="w-full text-sm border-y border-[gray]">
       <thead>
-        <tr className="border-y border-[--border]">
+        <tr className="border-y border-[--border-1]">
           {head.map((item, index) => (
             <th
               key={index}
-              className="py-2 text-xs text-left font-bold shadow-[inset_0_1px_0_0_#ebeef1]"
+              className={`p-2 text-xs text-left font-bold shadow-[inset_0_1px_0_0_#ebeef1] ${
+                index === 0 && "text-right"
+              }`}
             >
               {item}
             </th>
@@ -24,45 +33,42 @@ export default function Table({ head, body }: Props) {
         {body.map((item, index) => (
           <tr
             key={index}
-            className="border-y border-[--border] hover:bg-[--hover-2] hover:cursor-pointer"
+            className="border-y border-[--border-1] hover:bg-[--hover-2] hover:cursor-pointer"
           >
             <td
-              className={`"py-2 font-semibold ${
-                index === body.length - 1 && "shadow-[inset_0_-1px_0_0_#ebeef1]"
-              }`}
-            >{`$${item.amount.toFixed(2)}`}</td>
-            <td
-              className={`py-2 ${
+              className={`p-2 font-semibold text-right ${
                 index === body.length - 1 && "shadow-[inset_0_-1px_0_0_#ebeef1]"
               }`}
             >
-              {item.payment}
+              {formatCurrency(item.amount)}
             </td>
             <td
-              className={`py-2 ${
+              className={`p-2 ${
+                index === body.length - 1 && "shadow-[inset_0_-1px_0_0_#ebeef1]"
+              }`}
+            >
+              {formatPayment(item.payment)}
+            </td>
+            <td
+              className={`p-2 ${
                 index === body.length - 1 && "shadow-[inset_0_-1px_0_0_#ebeef1]"
               }`}
             >
               {item.description}
             </td>
             <td
-              className={`py-2 ${
+              className={`p-2 ${
                 index === body.length - 1 && "shadow-[inset_0_-1px_0_0_#ebeef1]"
               }`}
             >
-              {item.category}
+              {formatCategory(item.category)}
             </td>
             <td
-              className={`py-2 ${
+              className={`p-2 ${
                 index === body.length - 1 && "shadow-[inset_0_-1px_0_0_#ebeef1]"
               }`}
             >
-              {" "}
-              {new Date(item.date).toLocaleDateString("en-US", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
+              {formatDate(item.date)}
             </td>
           </tr>
         ))}

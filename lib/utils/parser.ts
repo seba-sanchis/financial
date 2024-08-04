@@ -1,19 +1,4 @@
-export function extractDate(text: string, regex: RegExp): Date {
-  // Use the regular expression to match the date pattern in the text
-  const dateMatch = text.match(regex);
-
-  // Throw an error if the date pattern is not found
-  if (!dateMatch) throw new Error("Date not found");
-
-  // Split the matched date into parts (day, month, year), reverse them to get year-month-day
-  const dateParts = dateMatch[1].split("/").reverse();
-
-  // Join the parts with hyphens to format as "yyyy-MM-dd"
-  const date = new Date(dateParts.join("-"));
-  return date;
-}
-
-export function extractAmount(text: string, id?: string) {
+export function parseAmount(text: string, id?: string) {
   let amounts: number[] = []; // Array to store the extracted amounts
   let regexPattern: RegExp; // Regular expression pattern for matching amounts
 
@@ -45,7 +30,22 @@ export function extractAmount(text: string, id?: string) {
   return amounts;
 }
 
-export function findExpense(
+export function parseDate(text: string, regex: RegExp): Date {
+  // Use the regular expression to match the date pattern in the text
+  const dateMatch = text.match(regex);
+
+  // Throw an error if the date pattern is not found
+  if (!dateMatch) throw new Error("Date not found");
+
+  // Split the matched date into parts (day, month, year), reverse them to get year-month-day
+  const dateParts = dateMatch[1].split("/").reverse();
+
+  // Join the parts with hyphens to format as "yyyy-MM-dd"
+  const date = new Date(dateParts.join("-"));
+  return date;
+}
+
+export function parseExpense(
   text: string,
   expenses: any[]
 ): {
@@ -65,23 +65,4 @@ export function findExpense(
     description: expense.description,
     payment: expense.payment,
   };
-}
-
-export function convertMonth(month: string): string {
-  const monthMap: { [key: string]: string } = {
-    Ene: "01", // January
-    Feb: "02", // February
-    Mar: "03", // March
-    Abr: "04", // April
-    May: "05", // May
-    Jun: "06", // June
-    Jul: "07", // July
-    Ago: "08", // August
-    Sep: "09", // September
-    Oct: "10", // October
-    Nov: "11", // November
-    Dic: "12", // December
-  };
-
-  return monthMap[month]; // Return the numeric month
 }

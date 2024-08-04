@@ -15,7 +15,7 @@ export default function Sidebar({ session }: Props) {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col flex-1 max-w-56 border-r border-[--border]">
+    <div className="flex flex-col flex-1 max-w-56 border-r border-[--border-1]">
       <ul className="p-5">
         {menu.map((item) => (
           <li key={item.name}>

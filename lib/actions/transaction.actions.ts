@@ -1,14 +1,10 @@
 "use server";
 
+import { getSession } from "../auth";
 import { Transaction } from "@/types";
 import { expenses } from "@/constants";
-import {
-  convertMonth,
-  extractAmount,
-  extractDate,
-  findExpense,
-} from "../utils";
-import { getSession } from "../auth";
+import { formatMonth } from "../utils/formatter";
+import { parseAmount, parseDate, parseExpense } from "../utils/parser";
 
 // Function to extract transaction data from the given text
 export async function extractTransactions(
@@ -28,16 +24,16 @@ export async function extractTransactions(
   // Check if the text includes "Comprobante de pago"
   if (payment) {
     // Extract the date using the specified regex pattern
-    const date = extractDate(
+    const date = parseDate(
       text,
       /Fecha y hora de pago\s+(\d{2}\/\d{2}\/\d{4})/
     );
 
     // Extract the amount from the text
-    const amount = extractAmount(text)[0];
+    const amount = parseAmount(text)[0];
 
     // Find the corresponding expense details
-    const { category, description, payment } = findExpense(text, expenses);
+    const { category, description, payment } = parseExpense(text, expenses);
 
     // Add the extracted data to the transactions array
     transactions.push({
@@ -52,16 +48,13 @@ export async function extractTransactions(
   // Check if the text includes "Comprobante de transferencia"
   else if (transfer) {
     // Extract the date using the specified regex pattern
-    const date = extractDate(
-      text,
-      /Fecha de ejecución\s+(\d{2}\/\d{2}\/\d{4})/
-    );
+    const date = parseDate(text, /Fecha de ejecución\s+(\d{2}\/\d{2}\/\d{4})/);
 
     // Extract the amount from the text
-    const amount = extractAmount(text)[0];
+    const amount = parseAmount(text)[0];
 
     // Find the corresponding expense details
-    const { category, description, payment } = findExpense(text, expenses);
+    const { category, description, payment } = parseExpense(text, expenses);
 
     // Add the extracted data to the transactions array
     transactions.push({
@@ -83,7 +76,7 @@ export async function extractTransactions(
     const [day, month, year] = dateMatch[1].split(" ");
 
     // Convert month name to month number
-    const monthNumber = convertMonth(month);
+    const monthNumber = formatMonth(month);
 
     // Format the date in the required format
     const date = new Date(`20${year}-${monthNumber}-${day}`);
@@ -92,7 +85,7 @@ export async function extractTransactions(
     expenses.forEach((expense) => {
       if (text.includes(expense.id)) {
         // Get the amounts related to the expense id
-        const amounts = extractAmount(text, expense.id);
+        const amounts = parseAmount(text, expense.id);
 
         // Add each found amount to the transactions array
         amounts.forEach((amount) => {

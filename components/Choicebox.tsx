@@ -19,7 +19,7 @@ export default function Choicebox({ tabs, slug }: Props) {
           className={`flex flex-col gap-1 flex-1 rounded-lg ${
             slug === item.name.toLocaleLowerCase()
               ? "p-[11px] border-2 border-[--accent-1] text-[--accent-1]"
-              : "p-3 border border-[--border] hover:border-[--accent-1]"
+              : "p-3 border border-[--border-1] hover:border-[--accent-1]"
           }`}
         >
           <span

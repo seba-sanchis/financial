@@ -69,90 +69,90 @@ export const expenses = [
   // Healthcare
   {
     id: "FARMACIA VASSALLO",
-    category: "Healthcare",
+    category: "healthcare",
     description: "Farmacia Vassallo",
     payment: "credit_card",
   },
   // Home
   {
     id: "0150921601000001926812",
-    category: "Home",
+    category: "home",
     description: "Alquiler",
     payment: "bank_transfer",
   },
   {
     id: "0170347220000030163234",
-    category: "Home",
+    category: "home",
     description: "Expensas",
     payment: "bank_transfer",
   },
   // Insurance
   {
     id: "0000027092676-002-000",
-    category: "Insurance",
+    category: "insurance",
     description: "La Caja Seguros",
     payment: "credit_card",
   },
   {
     id: "0000028821236-004-000",
-    category: "Insurance",
+    category: "insurance",
     description: "La Caja Seguros",
     payment: "credit_card",
   },
   // Supermarket
   {
     id: "WWW.CARREFOUR.COM.AR",
-    category: "Supermarket",
+    category: "supermarket",
     description: "Carrefour",
     payment: "credit_card",
   },
   // Transportation
   {
     id: "960003682555202",
-    category: "Transportation",
+    category: "transportation",
     description: "Autopistas del Sol",
     payment: "credit_card",
   },
   {
     id: "WWW.MSM.GOV.AR",
-    category: "Transportation",
+    category: "transportation",
     description: "Municipalidad de San Miguel",
     payment: "credit_card",
   },
   {
     id: "SHELL - DEHEZA 1428",
-    category: "Transportation",
+    category: "transportation",
     description: "Shell",
     payment: "credit_card",
   },
   {
     id: "PLANTA VICENTE LOPEZ",
-    category: "Transportation",
-    description: "Verificación técnica vehicular",
+    category: "transportation",
+    description: "Verificación Técnica Vehicular",
     payment: "credit_card",
   },
   // Utilities
   {
     id: "004241233254",
-    category: "Utilities",
+    category: "utilities",
     description: "Edenor",
     payment: "debit_card",
   },
   {
     id: "19273186",
-    category: "Utilities",
+    category: "utilities",
     description: "Naturgy",
     payment: "debit_card",
   },
   {
     id: "215569",
-    category: "Utilities",
+    category: "utilities",
     description: "Municipalidad de San Isidro",
     payment: "debit_card",
   },
   {
     id: "1003254775510001",
-    category: "Utilities",
+    category: "utilities",
     description: "Personal Flow",
     payment: "debit_card",
   },

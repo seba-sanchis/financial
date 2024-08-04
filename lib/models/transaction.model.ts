@@ -7,6 +7,14 @@ const TransactionSchema = new Schema({
   },
   category: {
     type: String,
+    enum: [
+      "healthcare",
+      "home",
+      "insurance",
+      "supermarket",
+      "transportation",
+      "utilities",
+    ],
     required: [true, "Category is required."],
   },
   description: {
@@ -15,11 +23,17 @@ const TransactionSchema = new Schema({
   },
   payment: {
     type: String,
+    enum: ["debit_card", "credit_card", "bank_transfer"],
     required: [true, "Payment is required."],
   },
   amount: {
     type: Number,
     required: [true, "Amount is required."],
+  },
+  type: {
+    type: String,
+    enum: ["income", "outcome"],
+    required: [true, "Type is required."],
   },
   accountId: {
     type: Types.ObjectId,

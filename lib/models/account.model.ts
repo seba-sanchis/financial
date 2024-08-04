@@ -21,6 +21,7 @@ const AccountSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+    required: [true, "Created at is required."],
   },
 });
 

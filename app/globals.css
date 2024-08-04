@@ -21,10 +21,8 @@
 
   --error: oklch(70.08% 0.207 1.42deg);
 
-  --border: oklch(94.03% 0.01 247.94deg);
-
-  --shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-    0 8px 16px -8px rgba(0, 0, 0, 0.3);
+  --border-1: oklch(94.03% 0.01 247.94deg);
+  --border-2: oklch(71.87% 0.031 259.58deg);
 }
 
 /* @media (prefers-color-scheme: dark) {

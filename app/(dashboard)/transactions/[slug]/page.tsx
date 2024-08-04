@@ -1,4 +1,4 @@
-import { Choicebox, Table, Tabs } from "@/components";
+import { Choicebox, Table } from "@/components";
 
 type Props = {
   params: {
@@ -12,8 +12,6 @@ export default async function Page({ params }: Props) {
     { name: "Income", url: "/transactions/income", quantity: 1 },
     { name: "Outcome", url: "/transactions/outcome", quantity: 1 },
   ];
-
-  const head = ["Amount", "Payment method", "Description", "Category", "Date"];
 
   const transactions = [
     {
@@ -45,7 +43,7 @@ export default async function Page({ params }: Props) {
 
       <Choicebox tabs={tabs} slug={params.slug} />
 
-      <Table head={head} body={transactions} />
+      <Table body={transactions} />
     </main>
   );
 }
