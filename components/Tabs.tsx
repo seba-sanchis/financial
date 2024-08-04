@@ -10,7 +10,7 @@ type Props = {
 
 export default function Tabs({ tabs, slug }: Props) {
   return (
-    <div className="flex gap-2 pb-1 mt-2 border-b border-[oklch(89.78%_0.010_247.94deg)]">
+    <div className="flex gap-2 pb-1 border-b border-[oklch(89.78%_0.010_247.94deg)]">
       {tabs.map((item) => (
         <Link
           key={item.name}

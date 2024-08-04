@@ -50,7 +50,7 @@ export function findExpense(
   expenses: any[]
 ): {
   category: string;
-  payee: string;
+  description: string;
   payment: string;
 } {
   // Find the first expense in the list whose ID is included in the text
@@ -62,7 +62,7 @@ export function findExpense(
   // Return the details of the found expense
   return {
     category: expense.category,
-    payee: expense.payee,
+    description: expense.description,
     payment: expense.payment,
   };
 }

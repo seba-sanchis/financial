@@ -9,9 +9,9 @@ const TransactionSchema = new Schema({
     type: String,
     required: [true, "Category is required."],
   },
-  payee: {
+  description: {
     type: String,
-    required: [true, "Payee is required."],
+    required: [true, "Description is required."],
   },
   payment: {
     type: String,

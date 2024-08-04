@@ -66,7 +66,7 @@ export default function FileUpload() {
           <ul key={index}>
             <li>Date: {transaction.date.toString()}</li>
             <li>Category: {transaction.category}</li>
-            <li>Payee: {transaction.payee}</li>
+            <li>Description: {transaction.description}</li>
             <li>Payment: {transaction.payment}</li>
             <li>Amount: {transaction.amount}</li>
           </ul>

@@ -22,7 +22,7 @@ export default function Sidebar({ session }: Props) {
             <Link
               href={item.url}
               className={`flex items-center gap-2 text-sm px-2 py-1.5 rounded hover:bg-[--hover-2] ${
-                pathname === item.url && "text-[--accent-1]"
+                pathname.includes(item.url) && "text-[--accent-1]"
               }`}
             >
               {item.icon}

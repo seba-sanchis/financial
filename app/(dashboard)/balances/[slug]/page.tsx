@@ -11,108 +11,108 @@ export default async function Page({ params }: Props) {
     {
       month: "January",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "February",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "March",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "April",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "May",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "June",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "July",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "August",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "September",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "October",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "November",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
     {
       month: "December",
       transactions: [
-        { payee: "Item 1", amount: 0 },
-        { payee: "Item 2", amount: 0 },
-        { payee: "Item 3", amount: 0 },
+        { description: "Item 1", amount: 0 },
+        { description: "Item 2", amount: 0 },
+        { description: "Item 3", amount: 0 },
       ],
       total: 0,
     },
@@ -125,7 +125,7 @@ export default async function Page({ params }: Props) {
   ];
 
   return (
-    <main className="flex-1 pt-4 pl-10">
+    <main className="flex flex-col gap-4 flex-1 pt-4 pl-10">
       <h1 className="text-[28px] font-bold">Balances</h1>
 
       <Tabs tabs={tabs} slug={params.slug} />
@@ -133,7 +133,7 @@ export default async function Page({ params }: Props) {
       <div className="flex flex-col gap-8 mb-4">
         {balances.map((balance) => (
           <div key={balance.month}>
-            <h2 className="text-xl font-bold pb-3 pt-4 shadow-[inset_0_-1px_rgb(235,238,241)]">
+            <h2 className="text-xl font-bold pb-3 shadow-[inset_0_-1px_rgb(235,238,241)]">
               {balance.month}
             </h2>
             <table className="w-full">
@@ -151,7 +151,7 @@ export default async function Page({ params }: Props) {
                       }`}
                     >
                       <td>
-                        <span>{transaction.payee}</span>
+                        <span>{transaction.description}</span>
                       </td>
                       <td>
                         <span>{transaction.amount}</span>

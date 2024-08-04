@@ -11,7 +11,9 @@ import {
 import { getSession } from "../auth";
 
 // Function to extract transaction data from the given text
-export async function extractTransactions(text: string): Promise<Transaction[]> {
+export async function extractTransactions(
+  text: string
+): Promise<Transaction[]> {
   const { user } = await getSession();
 
   const accountId = user._id;
@@ -35,10 +37,17 @@ export async function extractTransactions(text: string): Promise<Transaction[]> 
     const amount = extractAmount(text)[0];
 
     // Find the corresponding expense details
-    const { category, payee, payment } = findExpense(text, expenses);
+    const { category, description, payment } = findExpense(text, expenses);
 
     // Add the extracted data to the transactions array
-    transactions.push({ date, category, payee, payment, amount, accountId });
+    transactions.push({
+      date,
+      category,
+      description,
+      payment,
+      amount,
+      accountId,
+    });
   }
   // Check if the text includes "Comprobante de transferencia"
   else if (transfer) {
@@ -52,10 +61,17 @@ export async function extractTransactions(text: string): Promise<Transaction[]> 
     const amount = extractAmount(text)[0];
 
     // Find the corresponding expense details
-    const { category, payee, payment } = findExpense(text, expenses);
+    const { category, description, payment } = findExpense(text, expenses);
 
     // Add the extracted data to the transactions array
-    transactions.push({ date, category, payee, payment, amount, accountId });
+    transactions.push({
+      date,
+      category,
+      description,
+      payment,
+      amount,
+      accountId,
+    });
   }
   // Check if the text includes "RESUMEN DE CUENTA"
   else if (resume) {
@@ -83,7 +99,7 @@ export async function extractTransactions(text: string): Promise<Transaction[]> 
           transactions.push({
             date,
             category: expense.category,
-            payee: expense.payee,
+            description: expense.description,
             payment: expense.payment,
             amount,
             accountId,

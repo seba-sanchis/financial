@@ -15,10 +15,10 @@ export interface Session {
 
 export interface Transaction {
   _id?: Types.ObjectId;
+  accountId?: Types.ObjectId;
   date: Date;
   category: string;
-  payee: string;
+  description: string;
   payment: string;
   amount: number;
-  accountId: Types.ObjectId;
 }
