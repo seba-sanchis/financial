@@ -59,3 +59,14 @@ export function formatPayment(paymentMethod: string): string {
 export function formatRate(rate: number): string {
   return `${rate.toFixed(2)}%`;
 }
+
+export function formatType(type: "revenue" | "expense"): string {
+  switch (type) {
+    case "revenue":
+      return "Revenue";
+    case "expense":
+      return "Expense";
+    default:
+      return "Unknown";
+  }
+}

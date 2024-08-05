@@ -1,50 +1,64 @@
 "use client";
 
+import { FaCloudArrowUp } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 
-import { Transaction } from "@/types";
+import { Transaction, Type } from "@/types";
 import { DragAndDrop, Table } from "@/components";
-import { formatCurrency, formatRate } from "@/lib/utils/formatter";
-import { FaCloudArrowUp } from "react-icons/fa6";
+import { formatCurrency, formatRate, formatType } from "@/lib/utils/formatter";
 
-export default function FileUpload() {
+type Props = {
+  type: Type;
+};
+
+export default function FileUpload({ type }: Props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [expense, setExpense] = useState(0);
-  const [expenseRate, setExpenseRate] = useState(0);
-  const [largestTransaction, setLargestTransaction] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [rate, setRate] = useState(0);
+  const [growth, setGrowth] = useState(0);
+  const [profit, setProfit] = useState(0);
+
+  const lastRevenue = 2200000;
+  const lastExpense = 500000;
 
   useEffect(() => {
-    // Calculate total expense
-    const total = transactions.reduce(
+    // Calculate amount
+    const amountValue = transactions.reduce(
       (sum, transaction) => sum + transaction.amount,
       0
     );
-    setExpense(total);
+    setAmount(amountValue);
 
-    // Calculate percentage in relation to 1000
-    const percentageValue = (total / 2210000) * 100;
-    setExpenseRate(percentageValue);
+    // Calculate rate
+    const rateValue = (amountValue / lastRevenue) * 100;
+    setRate(rateValue);
 
-    // Calculate largest transaction amount
-    const largest = transactions.reduce(
-      (max, transaction) => Math.max(max, transaction.amount),
-      0
-    );
-    setLargestTransaction(largest);
+    // Calculate profit
+    const profitValue = amountValue - lastExpense;
+    setProfit(profitValue);
+
+    const lastValue = type === "revenue" ? lastRevenue : lastExpense;
+
+    // Calculate growth
+    const growthValue = ((amountValue - lastValue) / lastValue) * 100;
+    setGrowth(growthValue);
   }, [transactions]);
 
   const metrics = [
     {
-      title: "Expense",
-      value: formatCurrency(expense),
+      title: formatType(type),
+      value: formatCurrency(amount),
     },
     {
-      title: "Expense Rate",
-      value: formatRate(expenseRate),
+      title: type === "revenue" ? "Profit" : "Rate",
+      value:
+        type === "revenue"
+          ? `${amount ? formatCurrency(profit) : formatCurrency(0)}`
+          : formatRate(rate),
     },
     {
-      title: "Largest Transaction",
-      value: `${formatCurrency(largestTransaction)}`,
+      title: "Growth",
+      value: `${amount ? formatRate(growth) : formatRate(0)}`,
     },
     {
       title: "Transactions",
@@ -54,11 +68,11 @@ export default function FileUpload() {
 
   return (
     <div className="flex flex-col gap-4">
-      <DragAndDrop setTransactions={setTransactions} />
+      <DragAndDrop type={type} setTransactions={setTransactions} />
 
       <div className="flex p-3">
         {metrics.map((metric) => (
-          <div className="flex flex-col gap-3 flex-1">
+          <div key={metric.title} className="flex flex-col gap-3 flex-1">
             <div className="text-sm font-medium">{metric.title}</div>
             <div className="text-2xl text-[--foreground-2] font-medium">
               {metric.value}

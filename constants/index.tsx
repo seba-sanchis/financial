@@ -72,6 +72,7 @@ export const expenses = [
     category: "healthcare",
     description: "Farmacia Vassallo",
     payment: "credit_card",
+    type: "expense",
   },
   // Home
   {
@@ -79,12 +80,14 @@ export const expenses = [
     category: "home",
     description: "Alquiler",
     payment: "bank_transfer",
+    type: "expense",
   },
   {
     id: "0170347220000030163234",
     category: "home",
     description: "Expensas",
     payment: "bank_transfer",
+    type: "expense",
   },
   // Insurance
   {
@@ -92,12 +95,14 @@ export const expenses = [
     category: "insurance",
     description: "La Caja Seguros",
     payment: "credit_card",
+    type: "expense",
   },
   {
     id: "0000028821236-004-000",
     category: "insurance",
     description: "La Caja Seguros",
     payment: "credit_card",
+    type: "expense",
   },
   // Supermarket
   {
@@ -105,6 +110,7 @@ export const expenses = [
     category: "supermarket",
     description: "Carrefour",
     payment: "credit_card",
+    type: "expense",
   },
   // Transportation
   {
@@ -112,24 +118,28 @@ export const expenses = [
     category: "transportation",
     description: "Autopistas del Sol",
     payment: "credit_card",
+    type: "expense",
   },
   {
     id: "WWW.MSM.GOV.AR",
     category: "transportation",
     description: "Municipalidad de San Miguel",
     payment: "credit_card",
+    type: "expense",
   },
   {
     id: "SHELL - DEHEZA 1428",
     category: "transportation",
     description: "Shell",
     payment: "credit_card",
+    type: "expense",
   },
   {
     id: "PLANTA VICENTE LOPEZ",
     category: "transportation",
     description: "Verificación Técnica Vehicular",
     payment: "credit_card",
+    type: "expense",
   },
   // Utilities
   {
@@ -137,24 +147,52 @@ export const expenses = [
     category: "utilities",
     description: "Edenor",
     payment: "debit_card",
+    type: "expense",
   },
   {
     id: "19273186",
     category: "utilities",
     description: "Naturgy",
     payment: "debit_card",
+    type: "expense",
   },
   {
     id: "215569",
     category: "utilities",
     description: "Municipalidad de San Isidro",
     payment: "debit_card",
+    type: "expense",
   },
   {
     id: "1003254775510001",
     category: "utilities",
     description: "Personal Flow",
     payment: "debit_card",
+    type: "expense",
   },
   // Pending to use: Clothing, Education, Entertainment, Investments, Miscellaneous, Travel
+];
+
+export const revenue = [
+  {
+    id: "20351080087",
+    category: "work",
+    description: "Marcos Zulian",
+    payment: "bank_transfer",
+    type: "revenue",
+  },
+  {
+    id: "27376357541",
+    category: "work",
+    description: "Ariana Andrada",
+    payment: "bank_transfer",
+    type: "revenue",
+  },
+  {
+    id: "20176113694",
+    category: "work",
+    description: "Roberto Gomez",
+    payment: "bank_transfer",
+    type: "revenue",
+  },
 ];

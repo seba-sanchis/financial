@@ -1,20 +1,12 @@
-export function parseAmount(text: string, id?: string) {
-  let amounts: number[] = []; // Array to store the extracted amounts
-  let regexPattern: RegExp; // Regular expression pattern for matching amounts
+import { expenses } from "@/constants";
+import { Category, Payment, Type } from "@/types";
 
-  // Determine the regular expression pattern based on whether an id is provided
-  if (id) {
-    regexPattern = new RegExp(
-      `${id}.*?\\s+([$€£]?\\s*[\\d,.]+)\\s`,
-      "g" // Adding 'g' flag to find all occurrences
-    );
-  } else {
-    regexPattern = /[$€£]?\s*([\d,.]+)\s/g;
-  }
+export function parseAmount(text: string, regex: RegExp) {
+  let amounts: number[] = []; // Array to store the extracted amounts
 
   let amountMatch;
   // Execute the regex pattern on the text to find all matches
-  while ((amountMatch = regexPattern.exec(text)) !== null) {
+  while ((amountMatch = regex.exec(text)) !== null) {
     // Parse the matched amount and convert it to a number
     const amount = parseFloat(
       amountMatch[1].replace("$", "").replace(".", "").replace(",", ".").trim()
@@ -45,13 +37,11 @@ export function parseDate(text: string, regex: RegExp): Date {
   return date;
 }
 
-export function parseExpense(
-  text: string,
-  expenses: any[]
-): {
-  category: string;
+export function parseExpense(text: string): {
+  category: Category;
   description: string;
-  payment: string;
+  payment: Payment;
+  type: Type;
 } {
   // Find the first expense in the list whose ID is included in the text
   const expense = expenses.find((expense) => text.includes(expense.id));
@@ -61,8 +51,9 @@ export function parseExpense(
 
   // Return the details of the found expense
   return {
-    category: expense.category,
+    category: expense.category as Category,
     description: expense.description,
-    payment: expense.payment,
+    payment: expense.payment as Payment,
+    type: expense.type as Type,
   };
 }

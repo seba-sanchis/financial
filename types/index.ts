@@ -9,6 +9,16 @@ export interface Account {
   createdAt?: Date;
 }
 
+export type Category =
+  | "healthcare"
+  | "home"
+  | "insurance"
+  | "supermarket"
+  | "transportation"
+  | "utilities";
+
+export type Payment = "debit_card" | "credit_card" | "bank_transfer";
+
 export interface Session {
   user: Account;
 }
@@ -17,8 +27,11 @@ export interface Transaction {
   _id?: Types.ObjectId;
   accountId?: Types.ObjectId;
   date: Date;
-  category: string;
+  category: Category;
   description: string;
-  payment: string;
+  payment: Payment;
+  type: Type;
   amount: number;
 }
+
+export type Type = "revenue" | "expense";

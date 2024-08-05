@@ -32,7 +32,7 @@ const TransactionSchema = new Schema({
   },
   type: {
     type: String,
-    enum: ["income", "outcome"],
+    enum: ["revenue", "expense"],
     required: [true, "Type is required."],
   },
   accountId: {

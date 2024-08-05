@@ -1,16 +1,19 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
+import { Transaction, Type } from "@/types";
 import extractFile from "@/lib/actions/file.actions";
-import { Transaction } from "@/types";
 
 type Props = {
+  type: Type;
   setTransactions: Dispatch<SetStateAction<Transaction[]>>;
 };
 
-export default function DragAndDrop({ setTransactions }: Props) {
+export default function DragAndDrop({ type, setTransactions }: Props) {
+  const [error, setError] = useState("");
+
   // Handle file drop
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const formData = new FormData();
@@ -41,7 +44,22 @@ export default function DragAndDrop({ setTransactions }: Props) {
         // Check if all files have been appended
         if (formData.getAll("files").length === acceptedFiles.length) {
           const data = await extractFile(formData);
-          setTransactions((prevTransactions) => [...prevTransactions, ...data]);
+
+          // Validate transactions before updating state
+          const filteredData = data.filter(
+            (transaction) => transaction.type === type
+          );
+
+          if (filteredData.length < data.length) {
+            setError(
+              "Some transactions were ignored because they do not match the selected type."
+            );
+          }
+
+          setTransactions((prevTransactions) => [
+            ...prevTransactions,
+            ...filteredData,
+          ]);
         }
       };
 
