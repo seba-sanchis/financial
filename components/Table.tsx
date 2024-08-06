@@ -4,7 +4,7 @@ import {
   formatCurrency,
   formatDate,
   formatPayment,
-} from "@/lib/utils/formatter";
+} from "@/lib/utils";
 
 type Props = {
   body: Transaction[];

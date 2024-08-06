@@ -1,4 +1,6 @@
 import { Choicebox, Table } from "@/components";
+import { getTransactions } from "@/lib/actions/transaction.actions";
+import { Transaction } from "@/types";
 
 type Props = {
   params: {
@@ -7,33 +9,27 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const tabs = [
-    { name: "All", url: "/transactions/all", quantity: 2 },
-    { name: "Income", url: "/transactions/income", quantity: 1 },
-    { name: "Outcome", url: "/transactions/outcome", quantity: 1 },
-  ];
+  const transactions: Transaction[] = (await getTransactions()) || [];
 
-  const transactions = [
+  const slug = params.slug;
+
+  // Filter transactions based on the slug
+  const filteredTransactions =
+    slug === "all"
+      ? transactions
+      : transactions.filter((tx) => tx.type === slug);
+
+  const tabs = [
+    { name: "All", url: "/transactions/all", quantity: transactions.length },
     {
-      date: new Date("2024-02-5"),
-      description: "Export of services",
-      category: "Work",
-      payment: "transfer",
-      amount: 100,
+      name: "Revenue",
+      url: "/transactions/revenue",
+      quantity: transactions.filter((tx) => tx.type === "revenue").length,
     },
     {
-      date: new Date("2024-05-12"),
-      category: "Home",
-      description: "Alquiler",
-      payment: "credit_card",
-      amount: 40,
-    },
-    {
-      date: new Date("2024-08-29"),
-      category: "Transport",
-      description: "Seguro",
-      payment: "debit_card",
-      amount: 20,
+      name: "Expense",
+      url: "/transactions/expense",
+      quantity: transactions.filter((tx) => tx.type === "expense").length,
     },
   ];
 
@@ -43,7 +39,7 @@ export default async function Page({ params }: Props) {
 
       <Choicebox tabs={tabs} slug={params.slug} />
 
-      <Table body={transactions} />
+      <Table body={filteredTransactions} />
     </main>
   );
 }

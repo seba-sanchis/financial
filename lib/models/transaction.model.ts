@@ -14,6 +14,7 @@ const TransactionSchema = new Schema({
       "supermarket",
       "transportation",
       "utilities",
+      "work",
     ],
     required: [true, "Category is required."],
   },

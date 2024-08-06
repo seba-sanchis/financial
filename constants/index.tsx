@@ -195,4 +195,5 @@ export const revenue = [
     payment: "bank_transfer",
     type: "revenue",
   },
+  // Pending to use: Investment
 ];

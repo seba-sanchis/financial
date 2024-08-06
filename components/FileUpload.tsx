@@ -1,11 +1,14 @@
 "use client";
 
 import { FaCloudArrowUp } from "react-icons/fa6";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 
 import { Transaction, Type } from "@/types";
 import { DragAndDrop, Table } from "@/components";
-import { formatCurrency, formatRate, formatType } from "@/lib/utils/formatter";
+import { formatCurrency, formatRate, formatType } from "@/lib/utils";
+import { newTransactions } from "@/lib/actions/transaction.actions";
+import Loading from "@/app/loading";
+import { revenue } from "@/constants";
 
 type Props = {
   type: Type;
@@ -17,6 +20,7 @@ export default function FileUpload({ type }: Props) {
   const [rate, setRate] = useState(0);
   const [growth, setGrowth] = useState(0);
   const [profit, setProfit] = useState(0);
+  const [isPending, startTransition] = useTransition();
 
   const lastRevenue = 2200000;
   const lastExpense = 500000;
@@ -66,6 +70,13 @@ export default function FileUpload({ type }: Props) {
     },
   ];
 
+  function handleClick() {
+    startTransition(async () => {
+      if (transactions) await newTransactions(transactions);
+      setTransactions([]);
+    });
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <DragAndDrop type={type} setTransactions={setTransactions} />
@@ -82,9 +93,20 @@ export default function FileUpload({ type }: Props) {
       </div>
 
       <div className="flex flex-col gap-3">
-        <button className="flex items-center self-end gap-1.5 px-2 py-1 border border-[--border-1] hover:border-[--border-2] active:bg-[--hover-2] rounded-md">
-          <FaCloudArrowUp size={12} />
-          <span className="text-sm font-semibold">Save Payments</span>
+        <button
+          onClick={handleClick}
+          className={`flex items-center justify-center self-end gap-1.5 px-2 py-1 ${type === "revenue" ? "w-[114px]" : "w-[139px]"} h-[30px] border border-[--border-1] hover:border-[--border-2] active:bg-[--hover-2] rounded-md`}
+        >
+          {isPending ? (
+            <Loading size={12} />
+          ) : (
+            <>
+              <FaCloudArrowUp size={12} />
+              <span className="text-sm font-semibold">{`Save ${
+                type === "revenue" ? "Billing" : "Payments"
+              }`}</span>
+            </>
+          )}
         </button>
         <Table body={transactions} />
       </div>

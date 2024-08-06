@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 import { Transaction, Type } from "@/types";
-import extractFile from "@/lib/actions/file.actions";
+import { parseFile } from "@/lib/actions/file.actions";
 
 type Props = {
   type: Type;
@@ -43,7 +43,7 @@ export default function DragAndDrop({ type, setTransactions }: Props) {
 
         // Check if all files have been appended
         if (formData.getAll("files").length === acceptedFiles.length) {
-          const data = await extractFile(formData);
+          const data = await parseFile(formData);
 
           // Validate transactions before updating state
           const filteredData = data.filter(
@@ -52,8 +52,12 @@ export default function DragAndDrop({ type, setTransactions }: Props) {
 
           if (filteredData.length < data.length) {
             setError(
-              "Some transactions were ignored because they do not match the selected type."
+              `Some transactions were ignored because they are not categorized as ${
+                type === "revenue" ? "billing" : "payments"
+              }.`
             );
+          } else {
+            setError("");
           }
 
           setTransactions((prevTransactions) => [
@@ -77,14 +81,20 @@ export default function DragAndDrop({ type, setTransactions }: Props) {
       className={`flex flex-col items-center justify-center text-sm h-[50px] border rounded-lg ${
         isDragActive
           ? "text-[--accent-1] border-[--accent-1] border-dashed bg-[--accent-2]"
-          : "text-[oklch(82.96%_0.017_253.92deg)] hover:text-[oklch(65.10%_0.025_260.70deg)] border-transparent shadow-[0_0_0_1px_rgba(65,69,82,.16)] cursor-pointer"
+          : `${
+              error
+                ? "text-[--error]"
+                : "text-[oklch(82.96%_0.017_253.92deg)] hover:text-[oklch(65.10%_0.025_260.70deg)] border-transparent shadow-[0_0_0_1px_rgba(65,69,82,.16)]"
+            }  cursor-pointer`
       }`}
     >
       <input {...getInputProps()} />
       {isDragActive ? (
         <p>Drop files here.</p>
       ) : (
-        <p>Drag some files here or click to upload files.</p>
+        <p>
+          {error ? error : "Drag some files here or click to upload files."}
+        </p>
       )}
     </div>
   );
